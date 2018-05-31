@@ -399,11 +399,6 @@
               <FileType>8</FileType>
               <FilePath>..\User\main.cpp</FilePath>
             </File>
-            <File>
-              <FileName>MessageReceiver.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\User\MessageReceiver.cpp</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -423,6 +418,56 @@
               <FileName>MicroWaveOvenUart.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\User\Driver\MicroWaveOvenUart.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Bluetooth.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Driver\Bluetooth.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Fridge.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Driver\Fridge.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>PickMoto.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Driver\PickMoto.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RobotArm1.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Driver\RobotArm1.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RobotArm2.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Driver\RobotArm2.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>FlashMemory.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Driver\FlashMemory.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>User/Event</GroupName>
+          <Files>
+            <File>
+              <FileName>Event.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Event\Event.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Receiver.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Event\Receiver.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Sender.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Event\Sender.cpp</FilePath>
             </File>
           </Files>
         </Group>

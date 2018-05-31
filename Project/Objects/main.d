@@ -11,4 +11,7 @@
 .\objects\main.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\main.o: D:\keil\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\RTOS2\Include\cmsis_os2.h
 .\objects\main.o: ..\User\Driver/MicroWaveOvenUart.h
-.\objects\main.o: ..\User\MessageReceiver.h
+.\objects\main.o: ..\User\Event/Event.h
+.\objects\main.o: ..\User\Event/Sender.h
+.\objects\main.o: ..\User\Event/Receiver.h
+.\objects\main.o: ..\User\Driver/Bluetooth.h

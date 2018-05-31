@@ -2,13 +2,39 @@
 #define		__MICRO_WAVE_OVEN_UART_H
 
 #include "stm32f4xx.h"
-#include "MessageReceiver.h"
+#include "Event/Event.h"
+#include "Event/Sender.h"
+#include "Event/Receiver.h"
 
-#define MICRO_WAVE_OVEN_MESSAGE_OBJ_SIZE		sizeof (MessageReceiver)
+class MicroWaveOvenUartEvent : public Event
+{
+	public:
+		MicroWaveOvenUartEvent(void) : pMsg(NULL), nSize(0) {}
+		
+		inline void set(const uint8_t *msg, uint32_t size) {
+			pMsg = msg;
+			nSize = size;
+		}
+		
+		inline const uint8_t *msg(void) {
+			return pMsg;
+		}
+		
+		inline uint32_t size(void) {
+			return nSize;
+		}
+		
+	private:
+		const uint8_t *pMsg;
+		uint32_t nSize;
+};
+
+
+#define MICRO_WAVE_OVEN_MESSAGE_OBJ_SIZE		sizeof (MicroWaveOvenUartEvent)
 #define MICRO_WAVE_OVEN_MESSAGE_OBJ_NUMBER		10
 #define MICRO_WAVE_OVEN_MESSAGE_SIZE			osRtxMessageQueueMemSize(MICRO_WAVE_OVEN_MESSAGE_OBJ_NUMBER, MICRO_WAVE_OVEN_MESSAGE_OBJ_SIZE)
 
-class MicroWaveOvenUart
+class MicroWaveOvenUart : public Receiver, Sender
 {
 	public:
 		inline static MicroWaveOvenUart *instance(void)
@@ -19,16 +45,6 @@ class MicroWaveOvenUart
 	
 	public:
 		MicroWaveOvenUart(void);
-	
-		inline void putMessage(const MessageReceiver *msg)
-		{
-			osMessageQueuePut(sMqId, msg, 0, 0);
-		}
-		
-		inline void getMessage(MessageReceiver *msg) 
-		{
-			osMessageQueueGet(sMqId, msg, NULL, osWaitForever);
-		}
 		
 		inline void write(uint8_t byte) 
 		{
@@ -38,43 +54,32 @@ class MicroWaveOvenUart
 		
 		inline void write(const uint8_t *byteArray, uint32_t len) 
 		{
-			osMutexAcquire(sMutexId, osWaitForever);
+			acquire();
 			while (len --) 
 			{
 				write(*byteArray);
 				byteArray ++;
 			}
-			osMutexRelease(sMutexId);
+			release();
 		}
 		
 		inline MicroWaveOvenUart& operator<<(const char *str)
 		{
-			osMutexAcquire(sMutexId, osWaitForever);
+			acquire();
 			while (*str != '\0')
 			{
 				write((uint8_t) *str);
 				str ++;
 			}
-			osMutexRelease(sMutexId);
+			release();
 			return *this;
 		}
-		
-		MicroWaveOvenUart& operator<<(int32_t number);
-	
+
 	private:
 		void initDriver(void);
 	
 	private:
-		uint64_t aMqCbMem[ (osRtxMessageQueueCbSize + 7) / 8 ];
 		uint64_t aMqMem[ (MICRO_WAVE_OVEN_MESSAGE_SIZE + 7) / 8 ];
-	
-		uint64_t qMutexMem[ (osRtxMutexCbSize + 7) / 8 ];
-	
-		osMessageQueueAttr_t sMqAttr;
-		osMessageQueueId_t sMqId;
-	
-		osMutexAttr_t sMutexAttr;
-		osMutexId_t sMutexId;
 };
 
 

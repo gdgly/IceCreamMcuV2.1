@@ -7,44 +7,13 @@
 static uint64_t RecvBuffer[512 / 8];
 static uint64_t RecvSingleBuffer[64 / 8];
 
-static MessageReceiver MsgRecv;
+static MicroWaveOvenUartEvent MsgRecv;
 
-MicroWaveOvenUart& MicroWaveOvenUart::operator<<(int32_t number)
-{
-	uint32_t len = 1;
-	uint32_t i;
-	int32_t temp = number;
-	
-	while (temp /= 10) {
-		len ++;
-	}
-	
-	for (i = 0; i < len; i ++)
-	{
-		
-	}
-	
-	return *this;
-}
 
-MicroWaveOvenUart::MicroWaveOvenUart(void)
+MicroWaveOvenUart::MicroWaveOvenUart(void) : 
+	Receiver("MicroWaveOven", aMqMem, MICRO_WAVE_OVEN_MESSAGE_OBJ_NUMBER, MICRO_WAVE_OVEN_MESSAGE_OBJ_SIZE),
+	Sender("MicroWaveOven")
 {
-	sMqAttr.name = "MicroWaveOvenUart";
-	sMqAttr.attr_bits = 0;
-	sMqAttr.cb_mem = aMqCbMem;
-	sMqAttr.cb_size = osRtxMessageQueueCbSize;
-	sMqAttr.mq_mem = aMqMem;
-	sMqAttr.mq_size = MICRO_WAVE_OVEN_MESSAGE_SIZE;
-	
-	sMqId = osMessageQueueNew(MICRO_WAVE_OVEN_MESSAGE_OBJ_NUMBER, MICRO_WAVE_OVEN_MESSAGE_OBJ_SIZE, &sMqAttr);
-	
-	sMutexAttr.name = "MicroWaveOvenUart";
-	sMutexAttr.attr_bits = osMutexRecursive;
-	sMutexAttr.cb_mem = qMutexMem;
-	sMutexAttr.cb_size = osRtxMutexCbSize;
-	
-	sMutexId = osMutexNew(&sMutexAttr);
-	
 	initDriver();
 }
 
@@ -100,7 +69,7 @@ void MicroWaveOvenUart::initDriver(void)
 	NVIC_EnableIRQ(USART3_IRQn);	
 }
 
-inline void vBufferOver(uint32_t index, uint32_t lastIndex)
+static inline void vBufferOver(uint32_t index, uint32_t lastIndex)
 {
 	uint32_t k = 0;
 	uint8_t *p1 = (uint8_t *) RecvSingleBuffer;
@@ -128,7 +97,7 @@ extern "C" void USART3_IRQHandler(void)
 	} else {
 		vBufferOver(index, lastIndex);
 	}
-	MicroWaveOvenUart::instance()->putMessage(&MsgRecv);
+	MicroWaveOvenUart::instance()->put(&MsgRecv);
 	lastIndex = index;
 }
 

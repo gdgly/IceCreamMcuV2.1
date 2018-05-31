@@ -1,0 +1,9 @@
+.\objects\moto.o: ..\User\Driver\Moto.cpp
+.\objects\moto.o: ..\User\Driver/Moto.h
+.\objects\moto.o: ..\CMSIS\stm32f4xx.h
+.\objects\moto.o: ..\CMSIS\core_cm4.h
+.\objects\moto.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\moto.o: ..\CMSIS\core_cmInstr.h
+.\objects\moto.o: ..\CMSIS\core_cmFunc.h
+.\objects\moto.o: ..\CMSIS\core_cmSimd.h
+.\objects\moto.o: ..\CMSIS\system_stm32f4xx.h
