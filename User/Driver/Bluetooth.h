@@ -3,31 +3,8 @@
 
 #include "Event/Receiver.h"
 #include "Event/Sender.h"
-#include "Event/Event.h"
+#include "Event/BluetoothEvent.h"
 #include "stm32f4xx.h"
-
-class BluetoothEvent : public Event
-{	
-	public:
-		BluetoothEvent(void) : pMsg(NULL), nMsgCount(0) {}
-	
-		inline void set(const uint8_t *msg, uint32_t count) {
-			pMsg = msg;
-			nMsgCount = count;
-		}
-		
-		inline const uint8_t *msg(void) {
-			return pMsg;
-		}
-		
-		inline uint8_t size(void) {
-			return nMsgCount;
-		}
-			
-	private:
-		const uint8_t *pMsg;
-		uint32_t nMsgCount;
-};
 
 #define BLUETOOTH_MESSAGE_OBJ_SIZE			sizeof(BluetoothEvent)
 #define BLUETOOTH_MESSAGE_OBJ_NUMBER		10
@@ -45,16 +22,7 @@ class Bluetooth : public Receiver, Sender
 	public:
 		Bluetooth(void);
 		
-		inline void write(const uint8_t *bytes, uint32_t length) 
-		{
-			acquire();
-			while (length --)
-			{
-				write(*bytes);
-				bytes ++;
-			}
-			release();
-		}
+		void write(const uint8_t *bytes, uint32_t len);
 	
 	private:
 		void initDriver(void);

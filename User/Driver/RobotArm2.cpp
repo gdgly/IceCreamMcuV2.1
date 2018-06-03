@@ -11,6 +11,26 @@ RobotArm2::RobotArm2(void) : Sender("RobotArm2")
 	vSetDir(Brake);
 }
 
+void RobotArm2::runTo(const uint16_t position, const uint16_t speed)
+{
+	uint16_t v;
+	vSetSpeed(speed);
+	while (true)
+	{
+		v = xGetPosition();
+		if (position > v) {
+			vSetDir(CW);
+		} else if (position < v) {
+			vSetDir(CCW);
+		} else {
+			vSetDir(Brake);
+			return;
+		}
+		osDelay(20);
+	}
+}
+
+
 void RobotArm2::initCounterDriver(void)
 {
 	RCC->APB1ENR |= 0x08;

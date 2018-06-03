@@ -13,6 +13,18 @@ Bluetooth::Bluetooth(void) :
 	initDriver();
 }
 
+void Bluetooth::write(const uint8_t *bytes, uint32_t length) 
+{
+	acquire();
+	osDelay(5);
+	while (length --)
+	{
+		write(*bytes);
+		bytes ++;
+	}
+	release();
+}
+
 static inline void vBufferOver(uint32_t index, uint32_t lastIndex)
 {
 	uint32_t k = 0;

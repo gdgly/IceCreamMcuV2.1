@@ -63,6 +63,8 @@ class MicroWaveOvenUart : public Receiver, Sender
 			release();
 		}
 		
+		void write(const char *format, ...);
+		
 		inline MicroWaveOvenUart& operator<<(const char *str)
 		{
 			acquire();

@@ -39,12 +39,12 @@ class RobotArm2 : public Sender
 		{
 			switch (dir)
 			{
-				case CW:
+				case CCW:
 					GPIOE->BSRRH = 0x20;
 					GPIOE->BSRRL = 0x10;
 					break;
 				
-				case CCW:
+				case CW:
 					GPIOE->BSRRL = 0x20;
 					GPIOE->BSRRH = 0x10;
 					break;
@@ -58,6 +58,8 @@ class RobotArm2 : public Sender
 		inline void vSetPosition(void) {
 			nRawPosition = 518 - TIM5->CCR2;
 		}
+		
+		void runTo(const uint16_t position, const uint16_t speed);
 		
 	private:
 		RobotArm2(void);

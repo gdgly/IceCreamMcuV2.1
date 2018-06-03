@@ -25,7 +25,7 @@ class RobotArm1 : public Sender
 		}
 		
 		inline void vSetSpeed(uint16_t sp) {
-			TIM3->CR1 = sp;
+			TIM3->CCR1 = sp;
 		}
 		
 		int32_t xGetPosition(void) 
@@ -44,12 +44,12 @@ class RobotArm1 : public Sender
 		{
 			switch (dir)
 			{
-				case CW:
+				case CCW:
 					GPIOE->BSRRH = 0x04;
 					GPIOE->BSRRL = 0x08;
 					break;
 				
-				case CCW:
+				case CW:
 					GPIOE->BSRRL = 0x04;
 					GPIOE->BSRRH = 0x08;
 					break;
@@ -63,6 +63,8 @@ class RobotArm1 : public Sender
 		inline void vSetPosition(void) {
 			nRawPosition = 518 - TIM2->CCR2;
 		}
+		
+		void runTo(const uint16_t position, const uint16_t speed);
 		
 	private:
 		RobotArm1(void);

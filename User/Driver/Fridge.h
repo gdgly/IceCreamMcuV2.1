@@ -3,6 +3,7 @@
 
 #include "stm32f4xx.h"
 #include "Event/Sender.h"
+#include "Driver/PositionSwitch.h"
 
 /**
  * @brief 冰箱门管理类
@@ -32,7 +33,7 @@ class Fridge : public Sender
 		/**
 		 * @brief 获取冰箱门电机编码器的计数值
 		 */
-		inline uint16_t vGetCouner(void) {
+		inline uint16_t xGetCounter(void) {
 			return TIM4->CNT;
 		}
 		
@@ -43,15 +44,27 @@ class Fridge : public Sender
 			TIM9->CCR2 = sp;
 		}
 		
-		inline void vSerDir(Dir dir) 
+		void runUp(const uint16_t sp);
+		
+		void runDown(const uint16_t sp);
+		
+		inline bool isTop(void) {
+			return 0 == (PositionSwitch::instance()->xGetValue() & PositionSwitch::ICE_DOOR_SW1);
+		}
+		
+		inline bool isDown(void) {
+			return 0 == (PositionSwitch::instance()->xGetValue() & PositionSwitch::ICE_DOOR_SW2);
+		}
+		
+		inline void vSetDir(Dir dir) 
 		{
 			switch (dir)
 			{
-				case Up:
+				case Down:
 					GPIOE->BSRRL = 0x40;
 					GPIOE->BSRRH = 0x80;
 					break;
-				case Down:
+				case Up:
 					GPIOE->BSRRH = 0x40;
 					GPIOE->BSRRL = 0x80;
 					break;

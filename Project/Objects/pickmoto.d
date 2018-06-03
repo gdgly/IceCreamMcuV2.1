@@ -12,3 +12,4 @@
 .\objects\pickmoto.o: ..\CMSIS\core_cmFunc.h
 .\objects\pickmoto.o: ..\CMSIS\core_cmSimd.h
 .\objects\pickmoto.o: ..\CMSIS\system_stm32f4xx.h
+.\objects\pickmoto.o: ..\User\Driver/PositionSwitch.h

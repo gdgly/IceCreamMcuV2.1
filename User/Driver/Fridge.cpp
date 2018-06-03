@@ -1,5 +1,5 @@
 #include "Driver/Fridge.h"
-
+#include "Driver/MicroWaveOvenUart.h"
 
 
 Fridge::Fridge(void) : Sender("Fridge")
@@ -8,7 +8,7 @@ Fridge::Fridge(void) : Sender("Fridge")
 	initMotoDriver();
 	initCounterGpio();
 	initCounterDriver();
-	vSerDir(Brake);
+	vSetDir(Brake);
 }
 
 /**
@@ -22,7 +22,7 @@ void Fridge::initMotoGpio(void)
 	RCC->AHB1ENR |= 0x01 | 0x10;
 	
 	GPIOA->MODER &= ~0xC0;
-	GPIOA->MODER |= 0x20;
+	GPIOA->MODER |= 0x80;
 	GPIOA->PUPDR &= ~0xC0;
 	GPIOA->OSPEEDR |= 0xC0;
 	GPIOA->OTYPER &= ~0x08;
@@ -36,6 +36,42 @@ void Fridge::initMotoGpio(void)
 	GPIOE->OTYPER &= ~0xC0;
 }
 
+void Fridge::runUp(const uint16_t sp)
+{
+	if (isTop()) {
+		vSetDir(Brake);
+		return;
+	}
+	vSetSpeed(sp);
+	vSetDir(Up);
+	while (true)
+	{
+		if (isTop()) {
+			vSetDir(Brake);
+			return;
+		}
+		osDelay(20);
+	}
+}
+
+void Fridge::runDown(const uint16_t sp)
+{
+	if (isDown()) {
+		vSetDir(Brake);
+		return;
+	}
+	vSetSpeed(sp);
+	vSetDir(Down);
+	while (true)
+	{
+		if (isDown()) {
+			vSetDir(Brake);
+			return;
+		}
+		osDelay(20);
+	}
+}
+
 /**
  * @brief 冰箱门电机速度控制初始化
  * TIM9_CH2 <-> PWM = 500k
@@ -46,10 +82,10 @@ void Fridge::initMotoDriver(void)
 	
 	TIM9->CR1 = 0x00;
 	TIM9->CR2 = 0x00;
-	TIM9->PSC = 168 * 20 - 1;
+	TIM9->PSC = 168 * 1 - 1;
 	TIM9->ARR = 100 - 1;
 	TIM9->CCR2 = 100;
-	TIM9->CCMR1 = 0x7000;
+	TIM9->CCMR1 = 0x6000;
 	TIM9->CCER = 0x0010;
 	TIM9->CR1 = 0x01;
 	TIM9->EGR = 0x01;

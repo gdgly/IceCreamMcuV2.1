@@ -1,13 +1,37 @@
 #include "Driver/PickMoto.h"
 
-
-
 PickMoto::PickMoto(void) : Sender("PickMoto")
 {
 	initMotoGpio();
 	initMotoDriver();
 	initCounterGpio();
 	initCounterDriver();
+	vSetDir(Brake);
+}
+
+void PickMoto::runUp(const uint16_t speed)
+{
+	if (isTop()) {
+		vSetDir(Brake);
+		return;
+	}
+	vSetDir(Up);
+	vSetSpeed(speed);
+	while (true)
+	{
+		if (isTop()) {
+			vSetDir(Brake);
+			break;
+		}
+		osDelay(20);
+	}
+}
+
+void PickMoto::runDown(const uint16_t speed)
+{
+	vSetDir(Down);
+	vSetSpeed(speed);
+	osDelay(2000);
 	vSetDir(Brake);
 }
 
@@ -64,7 +88,7 @@ void PickMoto::initMotoGpio(void)
 	GPIOB->AFR[1] |= 0x30;
 	
 	GPIOD->MODER &= ~0xF0000000;
-	GPIOD->MODER |= 0xA0000000;
+	GPIOD->MODER |= 0x50000000;
 	GPIOD->PUPDR &= ~0xF0000000;
 	GPIOD->OSPEEDR |= 0xF0000000;
 	GPIOD->OTYPER &= ~0xC000;
@@ -80,10 +104,10 @@ void PickMoto::initMotoDriver(void)
 	
 	TIM11->CR1 = 0x00;
 	TIM11->CR2 = 0x00;
-	TIM11->PSC = 168 * 20 - 1;
+	TIM11->PSC = 168 * 2 - 1;
 	TIM11->ARR = 100 - 1;
 	TIM11->CR1 = 100;
-	TIM11->CCMR1 = 0x0070;
+	TIM11->CCMR1 = 0x0060;
 	TIM11->CCER = 0x0001;
 	TIM11->CR1 = 0x01;
 	TIM11->EGR = 0x01;

@@ -17,7 +17,7 @@ void FlashMempry::vWriteData(uint32_t address, const uint8_t *data, uint32_t siz
 {
 	if (address & 0xFF) // 地址没有256字节对齐
 	{
-		uint32_t residue = (address + 0xFF) & (~0xFF);
+		//uint32_t residue = (address + 0xFF) & (~0xFF);
 		
 	}
 }

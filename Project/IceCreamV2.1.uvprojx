@@ -409,6 +409,31 @@
               <FileType>8</FileType>
               <FilePath>..\User\Task\Task.cpp</FilePath>
             </File>
+            <File>
+              <FileName>LedHintTask.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Task\LedHintTask.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>MotoTestTask.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Task\MotoTestTask.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>StatusReportTask.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Task\StatusReportTask.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>BluetoothProtocolParseTask.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Task\BluetoothProtocolParseTask.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RobotArmTestTask.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Task\RobotArmTestTask.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -449,6 +474,11 @@
               <FileType>8</FileType>
               <FilePath>..\User\Driver\FlashMemory.cpp</FilePath>
             </File>
+            <File>
+              <FileName>PositionSwitch.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Driver\PositionSwitch.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -468,6 +498,21 @@
               <FileName>Sender.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\User\Event\Sender.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>BluetoothEvent.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Event\BluetoothEvent.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>User/Custom</GroupName>
+          <Files>
+            <File>
+              <FileName>Protocol.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\User\Custom\Protocol.cpp</FilePath>
             </File>
           </Files>
         </Group>

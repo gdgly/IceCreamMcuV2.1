@@ -3,6 +3,7 @@
 
 #include "Event/Sender.h"
 #include "stm32f4xx.h"
+#include "Driver/PositionSwitch.h"
 
 class PickMoto : public Sender
 {
@@ -35,12 +36,12 @@ class PickMoto : public Sender
 		{
 			switch (dir)
 			{
-				case Up:
+				case Down:
 					GPIOD->BSRRH = 0x4000;
 					GPIOD->BSRRL = 0x8000;
 					break;
 				
-				case Down:
+				case Up:
 					GPIOD->BSRRL = 0x4000;
 					GPIOD->BSRRH = 0x8000;
 					break;
@@ -50,6 +51,14 @@ class PickMoto : public Sender
 					break;
 			}
 		}
+		
+		inline bool isTop(void) {
+			return (0 == (PositionSwitch::instance()->xGetValue() & PositionSwitch::CAT_SW));
+		}
+		
+		void runUp(const uint16_t speed);
+		
+		void runDown(const uint16_t speed);
 		
 	private:
 		PickMoto(void);

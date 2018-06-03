@@ -6,6 +6,7 @@ void Task::startThreadFun(void *arg)
 	Task* t = (Task *) arg;
 	t->run();
 	t->sId = NULL;
+	osThreadExit();
 }
 
 
@@ -25,6 +26,9 @@ Task::Task(const char *name, uint64_t *stack, uint32_t stackSize, osPriority_t p
 
 void Task::start(void)
 {
+	if (sId != NULL) {
+		stop();
+	}
 	sId = osThreadNew(startThreadFun, this, &sAttr);
 }
 

@@ -1,4 +1,6 @@
 #include "Driver/MicroWaveOvenUart.h"
+#include <stdarg.h>
+#include <stdio.h>
 
 /**
  * @微波炉串口
@@ -15,6 +17,16 @@ MicroWaveOvenUart::MicroWaveOvenUart(void) :
 	Sender("MicroWaveOven")
 {
 	initDriver();
+}
+
+void MicroWaveOvenUart::write(const char *format, ...)
+{
+	static char buffer[100];
+	va_list ap;
+	
+	va_start(ap, format);
+	int len = vsprintf(buffer, format, ap);
+	write((const uint8_t *) buffer, len);
 }
 
 /**
